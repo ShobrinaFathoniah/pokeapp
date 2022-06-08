@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "550499827250",
+    "project_id": "pokeapp-shobrinaf",
+    "storage_bucket": "pokeapp-shobrinaf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:550499827250:android:0d997179eda8ac410a062b",
+        "android_client_info": {
+          "package_name": "com.pokeapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "550499827250-iiokk02e5h6t6go1lmmser4dabcb1s1g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBPSh1tXlJmGtIqAQ8nmQoNK4ijm90JBg0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "550499827250-iiokk02e5h6t6go1lmmser4dabcb1s1g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
