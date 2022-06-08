@@ -12,6 +12,7 @@ import com.facebook.soloader.SoLoader;
 import com.pokeapp.newarchitecture.MainApplicationReactNativeHost;
 import java.lang.reflect.InvocationTargetException;
 import io.invertase.firebase.auth.ReactNativeFirebaseAuthPackage;
+import com.microsoft.codepush.react.CodePush;
 import java.util.List;
 
 public class MainApplication extends Application implements ReactApplication {
@@ -35,6 +36,11 @@ public class MainApplication extends Application implements ReactApplication {
         @Override
         protected String getJSMainModuleName() {
           return "index";
+        }
+
+        @Override
+        protected String getJSBundleFile() {
+          return CodePush.getJSBundleFile();
         }
       };
 
