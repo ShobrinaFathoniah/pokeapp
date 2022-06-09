@@ -5,27 +5,22 @@ import {
   Image,
   TouchableOpacity,
 } from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {Formik} from 'formik';
 import {registerSchema} from '../../utils/globalSchema';
 import {ErrorText, Forms, Input} from '../../components';
 import {navigate} from '../../utils/navigate';
-import {myDb} from '../../utils/db';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import storage from '@react-native-firebase/storage';
 import {launchImageLibrary} from 'react-native-image-picker';
-import {setDataUser} from '../../store/userAction';
 import {moderateScale} from 'react-native-size-matters';
 import {sendDataRegister} from './redux/action';
 
 const Register = () => {
   const dispatch = useDispatch();
-  const {
-    _user = {
-      photoURL:
-        'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
-    },
-  } = useSelector(state => state.user);
+  const [photoUrl, setPhotoUrl] = useState(
+    'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
+  );
 
   const register = values =>
     dispatch(
@@ -34,7 +29,7 @@ const Register = () => {
         values.email,
         values.password,
         values.bio,
-        _user.photoURL,
+        photoUrl,
       ),
     );
   const goToLogin = () => navigate('Login');
@@ -47,36 +42,20 @@ const Register = () => {
     const result = await launchImageLibrary(options);
 
     const reference = storage().ref(
-      `photoProfile/${_user._id}/${result.assets[0].fileName}`,
+      `photoProfile/${result.assets[0].fileName}`,
     );
 
     const pathToFile = result.assets[0].uri;
     await reference.putFile(pathToFile);
 
     const url = await storage()
-      .ref(`photoProfile/${_user._id}/${result.assets[0].fileName}`)
+      .ref(`photoProfile/${result.assets[0].fileName}`)
       .getDownloadURL();
 
     if (url) {
-      changingPhoto(url);
+      setPhotoUrl(url);
     }
     console.log(url);
-  };
-
-  const changingPhoto = async url => {
-    let isUpdate = false;
-    await myDb.ref(`users/${_user._id}`).update({
-      photoURL: url,
-    });
-    isUpdate = true;
-
-    if (isUpdate) {
-      const results = await myDb.ref(`users/${_user._id}`).once('value');
-      console.log(results);
-      if (results.val()) {
-        dispatch(setDataUser(results.val()));
-      }
-    }
   };
 
   return (
@@ -95,7 +74,7 @@ const Register = () => {
               <TouchableOpacity onPress={changePhotoProfile}>
                 <Image
                   source={{
-                    uri: _user.photoURL,
+                    uri: photoUrl,
                   }}
                   style={styles.image}
                 />
