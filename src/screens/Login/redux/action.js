@@ -18,7 +18,7 @@ export const sendDataLogin = (email, password) => async dispatch => {
     if (results.val()) {
       // dispatch(setIsLoading(false));
       dispatch(setDataUser(results.val()));
-      navigate('Home');
+      navigate('BottomTab');
     }
   } catch (error) {
     Alert.alert('Pemberitahuan', `${error}`);
