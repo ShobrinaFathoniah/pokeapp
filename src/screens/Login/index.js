@@ -1,10 +1,17 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import React from 'react';
+import {Forms} from '../../components';
+import Input from '../../components/Input';
 
 const Login = () => {
   return (
     <View style={styles.page}>
-      <Text>Login</Text>
+      <Forms type="Login">
+        <View>
+          <Input placeholder="Email" />
+          <Input placeholder="Password" secureTextEntry={true} />
+        </View>
+      </Forms>
     </View>
   );
 };
