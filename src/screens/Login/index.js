@@ -1,18 +1,49 @@
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, View, ScrollView} from 'react-native';
 import React from 'react';
-import {Forms} from '../../components';
-import Input from '../../components/Input';
+import {Forms, ErrorText, Input} from '../../components';
+import {Formik} from 'formik';
+import {loginSchema} from '../../utils/globalSchema';
+import {navigate} from '../../utils/navigate';
+import {useDispatch} from 'react-redux';
+import {sendDataLogin} from './redux/action';
 
 const Login = () => {
+  const dispatch = useDispatch();
+  const login = values =>
+    dispatch(sendDataLogin(values.email, values.password));
+  const goToRegister = () => navigate('Register');
+
   return (
-    <View style={styles.page}>
-      <Forms type="Login">
-        <View>
-          <Input placeholder="Email" />
-          <Input placeholder="Password" secureTextEntry={true} />
-        </View>
-      </Forms>
-    </View>
+    <ScrollView style={styles.page}>
+      <Formik
+        validationSchema={loginSchema}
+        initialValues={{email: '', password: ''}}
+        onSubmit={login}>
+        {({handleChange, handleSubmit, values, errors}) => (
+          <Forms
+            onPressText={goToRegister}
+            onPressButton={handleSubmit}
+            type="Login">
+            <View>
+              <ErrorText textError={errors.email} />
+              <Input
+                placeholder="Email"
+                onChangeText={handleChange('email')}
+                value={values.email}
+              />
+
+              <ErrorText textError={errors.password} />
+              <Input
+                placeholder="Password"
+                secureTextEntry={true}
+                value={values.password}
+                onChangeText={handleChange('password')}
+              />
+            </View>
+          </Forms>
+        )}
+      </Formik>
+    </ScrollView>
   );
 };
 

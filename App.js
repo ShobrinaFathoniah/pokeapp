@@ -1,7 +1,9 @@
-import {View, Text} from 'react-native';
+import Root from './src/routers';
 import React, {useEffect} from 'react';
 import codePush from 'react-native-code-push';
 import SplashScreen from 'react-native-splash-screen';
+import {Provider} from 'react-redux';
+import {store} from './src/store';
 
 const codePushOptions = {
   checkFrequency: codePush.CheckFrequency.ON_APP_START,
@@ -13,9 +15,9 @@ const App = () => {
   }, []);
 
   return (
-    <View>
-      <Text>App</Text>
-    </View>
+    <Provider store={store}>
+      <Root />
+    </Provider>
   );
 };
 
