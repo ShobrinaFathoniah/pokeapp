@@ -4,11 +4,12 @@ import {Forms, ErrorText, Input} from '../../components';
 import {Formik} from 'formik';
 import {loginSchema} from '../../utils/globalSchema';
 import {navigate} from '../../utils/navigate';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {sendDataLogin} from './redux/action';
 
 const Login = () => {
   const dispatch = useDispatch();
+  const {isLoading} = useSelector(state => state.global);
   const login = values =>
     dispatch(sendDataLogin(values.email, values.password));
   const goToRegister = () => navigate('Register');
@@ -23,6 +24,7 @@ const Login = () => {
           <Forms
             onPressText={goToRegister}
             onPressButton={handleSubmit}
+            loading={isLoading}
             type="Login">
             <View>
               <ErrorText textError={errors.email} />
