@@ -4,8 +4,6 @@ import {useDispatch, useSelector} from 'react-redux';
 import {getAllPokemon} from './redux/action';
 import {ListPokemon, LoadingBar, SquareButton} from '../../components';
 import {setRefreshing} from '../../store/globalAction';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 
 const Home = () => {
   const dispatch = useDispatch();
