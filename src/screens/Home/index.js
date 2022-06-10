@@ -2,8 +2,16 @@ import {StyleSheet, View} from 'react-native';
 import React, {useCallback, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {getAllPokemon} from './redux/action';
-import {ListPokemon, LoadingBar, SquareButton} from '../../components';
+import {
+  ListPokemon,
+  LoadingBar,
+  SourceSerifPro,
+  SquareButton,
+} from '../../components';
 import {setRefreshing} from '../../store/globalAction';
+import {moderateScale} from 'react-native-size-matters';
+import {COLORS} from '../../utils/colors';
+import {getDetailPokemon} from '../Detail/redux/action';
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -33,6 +41,28 @@ const Home = () => {
     getDataPokemon(dataAllPokemon.next);
   }, [dataAllPokemon.next, getDataPokemon]);
 
+  const buttonPage = () => {
+    return (
+      <View style={styles.buttonPage}>
+        <SquareButton name="left" onPress={onPressLeftButton} />
+        <SquareButton name="right" onPress={onPressRightButton} />
+      </View>
+    );
+  };
+
+  const titleView = () => {
+    return (
+      <SourceSerifPro style={styles.textTitle}>List Pokemon</SourceSerifPro>
+    );
+  };
+
+  const getDetail = useCallback(
+    value => {
+      dispatch(getDetailPokemon(value));
+    },
+    [dispatch],
+  );
+
   return (
     <View style={styles.page}>
       {isLoading ? (
@@ -43,11 +73,10 @@ const Home = () => {
             onRefresh={onRefresh}
             refreshing={refreshing}
             data={dataAllPokemon.results}
+            ListFooterComponent={buttonPage}
+            ListHeaderComponent={titleView}
+            getDetail={getDetail}
           />
-          <View style={styles.buttonPage}>
-            <SquareButton name="left" onPress={onPressLeftButton} />
-            <SquareButton name="right" onPress={onPressRightButton} />
-          </View>
         </View>
       )}
     </View>
@@ -63,5 +92,11 @@ const styles = StyleSheet.create({
   buttonPage: {
     flexDirection: 'row',
     justifyContent: 'space-around',
+    marginTop: moderateScale(10),
+  },
+  textTitle: {
+    fontSize: moderateScale(18),
+    color: COLORS.darkBlue,
+    margin: moderateScale(10),
   },
 });

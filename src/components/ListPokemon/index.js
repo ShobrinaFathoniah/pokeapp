@@ -6,25 +6,36 @@ import {
   RefreshControl,
 } from 'react-native';
 import React from 'react';
-import {GentiumPlus} from '../FontComponents';
 import {navigate} from '../../utils/navigate';
+import PokemonCard from '../PokemonCard';
+import {moderateScale} from 'react-native-size-matters';
 
-const ListPokemon = ({data, onRefresh, refreshing}) => {
+const ListPokemon = ({
+  data,
+  onRefresh,
+  refreshing,
+  ListFooterComponent,
+  ListHeaderComponent,
+  getDetail,
+}) => {
   const listPokemonView = ({item}) => {
     const url = item.url;
-    const onPressItem = () => navigate('Detail', {params: {url}});
+    const onPressItem = () => {
+      getDetail(url);
+      navigate('Detail', {params: {url}});
+    };
 
     return (
-      <View>
+      <View style={styles.itemPage}>
         <TouchableOpacity onPress={onPressItem}>
-          <GentiumPlus>{item.name}</GentiumPlus>
+          <PokemonCard pokemonName={item.name} />
         </TouchableOpacity>
       </View>
     );
   };
 
   return (
-    <View>
+    <View style={styles.page}>
       <FlatList
         refreshControl={
           <RefreshControl onRefresh={onRefresh} refreshing={refreshing} />
@@ -32,6 +43,10 @@ const ListPokemon = ({data, onRefresh, refreshing}) => {
         keyExtractor={(_item, index) => index}
         renderItem={listPokemonView}
         data={data}
+        numColumns={2}
+        horizontal={false}
+        ListFooterComponent={ListFooterComponent}
+        ListHeaderComponent={ListHeaderComponent}
       />
     </View>
   );
@@ -39,4 +54,12 @@ const ListPokemon = ({data, onRefresh, refreshing}) => {
 
 export default ListPokemon;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  page: {
+    alignSelf: 'center',
+    marginBottom: moderateScale(10),
+  },
+  itemPage: {
+    margin: moderateScale(5),
+  },
+});

@@ -10,7 +10,6 @@ export const getAllPokemon = newUrl => async dispatch => {
 
     if (newUrl) {
       const res = await axios.get(`${newUrl}`);
-      console.log(res.data, 'allpokemon');
 
       if (res.status === 200) {
         dispatch(setIsLoading(false));
@@ -18,7 +17,6 @@ export const getAllPokemon = newUrl => async dispatch => {
       }
     } else {
       const res = await axios.get(`${baseUrl}/pokemon`);
-      console.log(res.data, 'allpokemon');
 
       if (res.status === 200) {
         dispatch(setIsLoading(false));

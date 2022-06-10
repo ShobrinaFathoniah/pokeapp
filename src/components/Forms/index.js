@@ -85,8 +85,8 @@ const styles = StyleSheet.create({
     fontSize: moderateScale(14),
   },
   image: {
-    width: moderateScale(250),
-    height: moderateScale(300),
+    width: moderateScale(150),
+    height: moderateScale(200),
     resizeMode: 'contain',
     alignSelf: 'center',
   },
