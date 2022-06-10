@@ -1,0 +1,1 @@
+export const SET_DETAIL_POKEMON = 'SET_DETAIL_POKEMON';

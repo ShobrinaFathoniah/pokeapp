@@ -45,6 +45,7 @@ const BottomTab = () => {
           tabBarIcon: ({color, size}) => (
             <AntDesign name="home" color={color} size={size} />
           ),
+          headerShown: false,
         }}
       />
       <Tab.Screen
@@ -55,6 +56,7 @@ const BottomTab = () => {
           tabBarIcon: ({color, size}) => (
             <AntDesign name="QQ" color={color} size={size} />
           ),
+          headerShown: false,
         }}
       />
     </Tab.Navigator>

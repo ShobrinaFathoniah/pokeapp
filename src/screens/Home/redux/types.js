@@ -1,0 +1,1 @@
+export const SET_ALL_POKEMON = 'SET_ALL_POKEMON';
