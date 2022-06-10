@@ -14,7 +14,6 @@ import com.facebook.react.config.ReactFeatureFlags;
 import com.facebook.soloader.SoLoader;
 import com.pokeapp.newarchitecture.MainApplicationReactNativeHost;
 import java.lang.reflect.InvocationTargetException;
-import io.invertase.firebase.auth.ReactNativeFirebaseAuthPackage;
 import com.microsoft.codepush.react.CodePush;
 import java.util.List;
 

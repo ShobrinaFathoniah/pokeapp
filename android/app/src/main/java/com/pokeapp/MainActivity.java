@@ -2,7 +2,7 @@ package com.pokeapp;
 
 import android.os.Bundle; 
 import com.facebook.react.ReactActivity;
-import org.devio.rn.splashscreen.SplashScreen; /
+import org.devio.rn.splashscreen.SplashScreen; 
 import com.facebook.react.ReactActivityDelegate;
 import com.facebook.react.ReactRootView;
 

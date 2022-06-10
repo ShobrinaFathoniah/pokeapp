@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   text: {
-    fontSize: moderateScale(12),
+    fontSize: moderateScale(13),
     color: COLORS.darkBlue,
     marginStart: moderateScale(10),
   },
