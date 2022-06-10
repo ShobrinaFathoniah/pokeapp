@@ -10,7 +10,7 @@ import {Formik} from 'formik';
 import {registerSchema} from '../../utils/globalSchema';
 import {ErrorText, Forms, Input} from '../../components';
 import {navigate} from '../../utils/navigate';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import storage from '@react-native-firebase/storage';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {moderateScale} from 'react-native-size-matters';
@@ -18,6 +18,7 @@ import {sendDataRegister} from './redux/action';
 
 const Register = () => {
   const dispatch = useDispatch();
+  const {isLoading} = useSelector(state => state.global);
   const [photoUrl, setPhotoUrl] = useState(
     'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
   );
@@ -69,6 +70,7 @@ const Register = () => {
             onPressText={goToLogin}
             onPressButton={handleSubmit}
             noImage={true}
+            loading={isLoading}
             type="Register">
             <View>
               <TouchableOpacity onPress={changePhotoProfile}>

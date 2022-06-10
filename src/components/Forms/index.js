@@ -4,6 +4,7 @@ import {moderateScale} from 'react-native-size-matters';
 import {LoginPic, RegisPic} from '../../assets';
 import {GentiumPlus, SourceSerifPro} from '../FontComponents';
 import {COLORS} from '../../utils/colors';
+import LoadingBar from '../LoadingBar';
 
 const Forms = ({
   type,
@@ -11,6 +12,7 @@ const Forms = ({
   onPressButton,
   onPressText,
   noImage = false,
+  loading = false,
 }) => {
   const image = () => {
     if (type === 'Login' && noImage === false) {
@@ -53,9 +55,14 @@ const Forms = ({
       <SourceSerifPro style={styles.title}>{type}</SourceSerifPro>
       {image()}
       {children}
-      <TouchableOpacity style={styles.button} onPress={onPressButton}>
-        <GentiumPlus style={styles.buttonText}>{type}</GentiumPlus>
-      </TouchableOpacity>
+      {loading ? (
+        <LoadingBar loading={loading} />
+      ) : (
+        <TouchableOpacity style={styles.button} onPress={onPressButton}>
+          <GentiumPlus style={styles.buttonText}>{type}</GentiumPlus>
+        </TouchableOpacity>
+      )}
+
       {helpText(type)}
     </View>
   );

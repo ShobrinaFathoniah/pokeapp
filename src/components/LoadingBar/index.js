@@ -3,7 +3,7 @@ import React from 'react';
 import * as Progress from 'react-native-progress';
 import {COLORS} from '../../utils/colors';
 
-const LoadingBar = loading => {
+const LoadingBar = ({loading}) => {
   if (loading) {
     return (
       <View style={styles.loading}>
