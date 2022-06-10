@@ -5,12 +5,18 @@ import {LoginPic, RegisPic} from '../../assets';
 import {GentiumPlus, SourceSerifPro} from '../FontComponents';
 import {COLORS} from '../../utils/colors';
 
-const Forms = ({type, children, onPressButton, onPressText}) => {
+const Forms = ({
+  type,
+  children,
+  onPressButton,
+  onPressText,
+  noImage = false,
+}) => {
   const image = () => {
-    if (type === 'Login') {
-      return <Image style={styles.image} source={LoginPic} />;
-    } else if (type === 'Register') {
+    if (type === 'Login' && noImage === false) {
       return <Image style={styles.image} source={RegisPic} />;
+    } else if (type === 'Register' && noImage === false) {
+      return <Image style={styles.image} source={LoginPic} />;
     } else {
       return null;
     }
