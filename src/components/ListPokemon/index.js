@@ -44,6 +44,7 @@ const ListPokemon = ({
         renderItem={listPokemonView}
         data={data}
         numColumns={2}
+        showsVerticalScrollIndicator={false}
         horizontal={false}
         ListFooterComponent={ListFooterComponent}
         ListHeaderComponent={ListHeaderComponent}

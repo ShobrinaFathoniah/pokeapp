@@ -1,6 +1,8 @@
 import {SET_DATA_USER} from '../screens/Login/redux/types';
 
-const initialState = {};
+const initialState = {
+  _user: {},
+};
 
 const UserReducer = (state = initialState, action) => {
   switch (action.type) {

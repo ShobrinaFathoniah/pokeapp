@@ -5,10 +5,11 @@ import {
   View,
   Image,
   FlatList,
+  TouchableOpacity,
 } from 'react-native';
-import React, {useCallback, useEffect} from 'react';
+import React, {useCallback} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {getDetailPokemon} from './redux/action';
+import {getDetailPokemon, saveCatchMons} from './redux/action';
 import {setRefreshing} from '../../store/globalAction';
 import {GentiumPlus, LoadingBar} from '../../components';
 import {moderateScale} from 'react-native-size-matters';
@@ -34,19 +35,19 @@ const Detail = ({route}) => {
         {base_stat: ''},
       ],
       name: '',
+      species: {
+        name: '',
+      },
     },
   } = useSelector(state => state.detail);
   const {isLoading, refreshing} = useSelector(state => state.global);
+  const {_user} = useSelector(state => state.user);
   const getDetail = useCallback(
     value => {
       dispatch(getDetailPokemon(value));
     },
     [dispatch],
   );
-
-  useEffect(() => {
-    getDetail(urlDetail);
-  }, [getDetail, urlDetail]);
 
   const onRefresh = () => {
     dispatch(setRefreshing(true));
@@ -60,6 +61,26 @@ const Detail = ({route}) => {
         <GentiumPlus style={styles.typeText}>{item.type.name}</GentiumPlus>
       </View>
     );
+  };
+
+  const renderItemAbilities = ({item}) => {
+    return (
+      <View style={styles.typeContainer}>
+        <GentiumPlus style={styles.typeText}>{item.ability.name}</GentiumPlus>
+      </View>
+    );
+  };
+
+  const renderItemMoves = ({item}) => {
+    return (
+      <View style={styles.typeContainer}>
+        <GentiumPlus style={styles.typeText}>{item.move.name}</GentiumPlus>
+      </View>
+    );
+  };
+
+  const catchPokemon = () => {
+    dispatch(saveCatchMons(_user._id, _user.catchMons, dataDetail));
   };
 
   return (
@@ -85,17 +106,29 @@ const Detail = ({route}) => {
               <GentiumPlus style={styles.textName}>
                 {dataDetail.name ? dataDetail.name : ''}
               </GentiumPlus>
+              <GentiumPlus style={styles.textBabInfo}>Types</GentiumPlus>
               <FlatList
                 data={dataDetail.types}
                 horizontal={true}
                 keyExtractor={(_item, index) => index}
                 renderItem={renderItemTypes}
               />
+              <GentiumPlus style={styles.textBabInfo}>Ability</GentiumPlus>
+              <FlatList
+                data={dataDetail.abilities}
+                horizontal={true}
+                keyExtractor={(_item, index) => index}
+                renderItem={renderItemAbilities}
+              />
+              <GentiumPlus style={styles.textBabInfo}>Species</GentiumPlus>
+              <GentiumPlus style={styles.textValueBab}>
+                {dataDetail.species.name}
+              </GentiumPlus>
             </View>
           </View>
 
           <View style={styles.statusContainer}>
-            <View style={styles.toRow}>
+            <View style={[styles.toRow, styles.pageTypes]}>
               <View style={styles.statusPage}>
                 <GentiumPlus style={styles.textBab}>HP</GentiumPlus>
                 <GentiumPlus style={styles.textValueBab}>
@@ -121,7 +154,7 @@ const Detail = ({route}) => {
                 </GentiumPlus>
               </View>
             </View>
-            <View style={styles.toRow}>
+            <View style={[styles.toRow, styles.pageTypes]}>
               <View style={styles.statusPage}>
                 <GentiumPlus style={styles.textBab}>Special Attack</GentiumPlus>
                 <GentiumPlus style={styles.textValueBab}>
@@ -150,6 +183,24 @@ const Detail = ({route}) => {
               </View>
             </View>
           </View>
+
+          <View>
+            <GentiumPlus style={styles.textBab}>Moves</GentiumPlus>
+            <FlatList
+              data={dataDetail.moves}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              keyExtractor={(_item, index) => index}
+              renderItem={renderItemMoves}
+            />
+          </View>
+
+          {/* {_user.catchMons} */}
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity style={styles.button} onPress={catchPokemon}>
+              <GentiumPlus style={styles.textButton}>Catch Me~!</GentiumPlus>
+            </TouchableOpacity>
+          </View>
         </View>
       )}
     </ScrollView>
@@ -161,6 +212,8 @@ export default Detail;
 const styles = StyleSheet.create({
   page: {
     flex: 1,
+    backgroundColor: COLORS.white,
+    padding: moderateScale(10),
   },
   image: {
     width: moderateScale(200),
@@ -170,13 +223,13 @@ const styles = StyleSheet.create({
   textName: {
     fontSize: moderateScale(20),
     color: COLORS.darkBlue,
-    alignSelf: 'center',
   },
   statusPage: {
     margin: moderateScale(10),
+    alignItems: 'center',
   },
   textBab: {
-    fontSize: moderateScale(16),
+    fontSize: moderateScale(18),
     color: COLORS.darkBlue,
   },
   textValueBab: {
@@ -185,23 +238,42 @@ const styles = StyleSheet.create({
   },
   toRow: {
     flexDirection: 'row',
-    margin: moderateScale(10),
+    margin: moderateScale(5),
   },
   statusContainer: {
-    margin: moderateScale(10),
+    margin: moderateScale(5),
   },
   typeContainer: {
-    backgroundColor: COLORS.darkYellow,
-    margin: moderateScale(5),
-    height: moderateScale(50),
     borderRadius: moderateScale(5),
   },
   typeText: {
     fontSize: moderateScale(15),
     color: COLORS.darkBlue,
-    margin: moderateScale(10),
+    marginRight: moderateScale(5),
   },
   infoContainer: {
     alignSelf: 'center',
+  },
+  button: {
+    margin: moderateScale(10),
+    padding: moderateScale(12),
+    backgroundColor: COLORS.darkBlue,
+    alignSelf: 'center',
+    borderRadius: moderateScale(5),
+  },
+  textButton: {
+    fontSize: moderateScale(15),
+    color: COLORS.white,
+  },
+  buttonContainer: {
+    alignSelf: 'center',
+  },
+  pageTypes: {
+    justifyContent: 'space-around',
+  },
+  textBabInfo: {
+    fontSize: moderateScale(15),
+    color: COLORS.darkYellow,
+    marginRight: moderateScale(5),
   },
 });
