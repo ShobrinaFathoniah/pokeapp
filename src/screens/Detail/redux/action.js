@@ -27,9 +27,15 @@ export const saveCatchMons =
     try {
       dispatch(setIsLoading(true));
 
-      await myDb.ref(`users/${userId}`).update({
-        catchMons: [...prevMonsData, monsData],
-      });
+      if (prevMonsData) {
+        await myDb.ref(`users/${userId}`).update({
+          catchMons: [...prevMonsData, monsData],
+        });
+      } else {
+        await myDb.ref(`users/${userId}`).update({
+          catchMons: [monsData],
+        });
+      }
 
       const results = await myDb.ref(`users/${userId}`).once('value');
       console.log(results);

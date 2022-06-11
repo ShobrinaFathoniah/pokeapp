@@ -5,10 +5,10 @@ import {SourceSerifPro} from '../FontComponents';
 import {PokeBallOrange} from '../../assets';
 import {COLORS} from '../../utils/colors';
 
-const PokemonCard = ({pokemonName}) => {
+const PokemonCard = ({pokemonName, image = PokeBallOrange}) => {
   return (
     <View style={styles.page}>
-      <Image style={styles.image} source={PokeBallOrange} />
+      <Image style={styles.image} source={image} />
       <SourceSerifPro style={styles.text}>{pokemonName}</SourceSerifPro>
     </View>
   );

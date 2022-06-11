@@ -1,19 +1,20 @@
 import {FlatList, StyleSheet, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {GentiumPlus} from '../../components';
 import {moderateScale} from 'react-native-size-matters';
 import {COLORS} from '../../utils/colors';
 import {getDetailPokemon} from '../Detail/redux/action';
 import {baseUrl} from '@env';
 import {navigate} from '../../utils/navigate';
+import PokemonCard from '../../components/PokemonCard';
+import {SourceSerifPro} from '../../components';
 
 const PokeBag = () => {
   const {_user} = useSelector(state => state.user);
   const dispatch = useDispatch();
 
   const renderItemMons = ({item}) => {
-    const url = `${baseUrl}/pokemon/${item.order}`;
+    const url = `${baseUrl}/pokemon/${item.id}`;
     const goToDetail = () => {
       dispatch(getDetailPokemon(url));
       navigate('Detail', {params: {url}});
@@ -21,8 +22,14 @@ const PokeBag = () => {
 
     return (
       <TouchableOpacity style={styles.typeContainer} onPress={goToDetail}>
-        <GentiumPlus style={styles.typeText}>{item.name}</GentiumPlus>
+        <PokemonCard pokemonName={item.name} />
       </TouchableOpacity>
+    );
+  };
+
+  const titleView = () => {
+    return (
+      <SourceSerifPro style={styles.textTitle}>List My Pokemon</SourceSerifPro>
     );
   };
 
@@ -32,6 +39,10 @@ const PokeBag = () => {
         data={_user.catchMons}
         keyExtractor={(_item, index) => index}
         renderItem={renderItemMons}
+        horizontal={false}
+        numColumns={2}
+        showsVerticalScrollIndicator={false}
+        ListHeaderComponent={titleView}
       />
     </View>
   );
@@ -45,10 +56,16 @@ const styles = StyleSheet.create({
   },
   typeContainer: {
     borderRadius: moderateScale(5),
+    margin: moderateScale(5),
   },
   typeText: {
     fontSize: moderateScale(15),
     color: COLORS.darkBlue,
     marginRight: moderateScale(5),
+  },
+  textTitle: {
+    fontSize: moderateScale(18),
+    color: COLORS.darkBlue,
+    margin: moderateScale(10),
   },
 });
