@@ -97,6 +97,9 @@ const Detail = ({route}) => {
     }
   };
 
+  const tenary = (data, outputTrue, outputFalse) =>
+    data ? outputTrue : outputFalse;
+
   return (
     <ScrollView
       refreshControl={
@@ -110,9 +113,11 @@ const Detail = ({route}) => {
           <View style={styles.toRow}>
             <Image
               source={{
-                uri: dataDetail.sprites.front_shiny
-                  ? dataDetail.sprites.front_shiny
-                  : '',
+                uri: tenary(
+                  dataDetail.sprites.front_shiny,
+                  dataDetail.sprites.front_shiny,
+                  '',
+                ),
               }}
               style={styles.image}
             />
@@ -146,25 +151,31 @@ const Detail = ({route}) => {
               <View style={styles.statusPage}>
                 <GentiumPlus style={styles.textBab}>HP</GentiumPlus>
                 <GentiumPlus style={styles.textValueBab}>
-                  {dataDetail.stats[0].base_stat
-                    ? dataDetail.stats[0].base_stat
-                    : 0}
+                  {tenary(
+                    dataDetail.stats[0].base_stat,
+                    dataDetail.stats[0].base_stat,
+                    0,
+                  )}
                 </GentiumPlus>
               </View>
               <View style={styles.statusPage}>
                 <GentiumPlus style={styles.textBab}>Attack</GentiumPlus>
                 <GentiumPlus style={styles.textValueBab}>
-                  {dataDetail.stats[1].base_stat
-                    ? dataDetail.stats[1].base_stat
-                    : 0}
+                  {tenary(
+                    dataDetail.stats[1].base_stat,
+                    dataDetail.stats[1].base_stat,
+                    0,
+                  )}
                 </GentiumPlus>
               </View>
               <View style={styles.statusPage}>
                 <GentiumPlus style={styles.textBab}>Defense</GentiumPlus>
                 <GentiumPlus style={styles.textValueBab}>
-                  {dataDetail.stats[2].base_stat
-                    ? dataDetail.stats[2].base_stat
-                    : 0}
+                  {tenary(
+                    dataDetail.stats[2].base_stat,
+                    dataDetail.stats[2].base_stat,
+                    0,
+                  )}
                 </GentiumPlus>
               </View>
             </View>
@@ -172,9 +183,11 @@ const Detail = ({route}) => {
               <View style={styles.statusPage}>
                 <GentiumPlus style={styles.textBab}>Special Attack</GentiumPlus>
                 <GentiumPlus style={styles.textValueBab}>
-                  {dataDetail.stats[3].base_stat
-                    ? dataDetail.stats[3].base_stat
-                    : 0}
+                  {tenary(
+                    dataDetail.stats[3].base_stat,
+                    dataDetail.stats[3].base_stat,
+                    0,
+                  )}
                 </GentiumPlus>
               </View>
               <View style={styles.statusPage}>
@@ -182,17 +195,21 @@ const Detail = ({route}) => {
                   Special Defense
                 </GentiumPlus>
                 <GentiumPlus style={styles.textValueBab}>
-                  {dataDetail.stats[4].base_stat
-                    ? dataDetail.stats[4].base_stat
-                    : 0}
+                  {tenary(
+                    dataDetail.stats[4].base_stat,
+                    dataDetail.stats[4].base_stat,
+                    0,
+                  )}
                 </GentiumPlus>
               </View>
               <View style={styles.statusPage}>
                 <GentiumPlus style={styles.textBab}>Speed</GentiumPlus>
                 <GentiumPlus style={styles.textValueBab}>
-                  {dataDetail.stats[5].base_stat
-                    ? dataDetail.stats[5].base_stat
-                    : 0}
+                  {tenary(
+                    dataDetail.stats[5].base_stat,
+                    dataDetail.stats[5].base_stat,
+                    0,
+                  )}
                 </GentiumPlus>
               </View>
             </View>
@@ -209,7 +226,6 @@ const Detail = ({route}) => {
             />
           </View>
 
-          {/* {_user.catchMons} */}
           <View style={styles.buttonContainer}>
             <TouchableOpacity style={styles.button} onPress={catchPokemon}>
               <GentiumPlus style={styles.textButton}>Catch Me~!</GentiumPlus>
