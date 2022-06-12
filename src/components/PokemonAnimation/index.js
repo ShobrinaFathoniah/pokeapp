@@ -6,6 +6,7 @@ import {PokeBall} from '../../assets';
 const PokemonAnimation = ({image, animation, pokemon = true}) => {
   const leftValue = useState(new Animated.Value(0))[0];
   const bottoomValue = useState(new Animated.Value(0))[0];
+  const opacity = useState(new Animated.Value(0))[0];
 
   useEffect(() => {
     if (animation === 'catch') {
@@ -14,6 +15,12 @@ const PokemonAnimation = ({image, animation, pokemon = true}) => {
           toValue: 80,
           duration: 5000,
           useNativeDriver: false,
+        }).start();
+
+        Animated.timing(opacity, {
+          toValue: 1,
+          duration: 3000,
+          useNativeDriver: true,
         }).start();
       };
       moving();
@@ -37,7 +44,7 @@ const PokemonAnimation = ({image, animation, pokemon = true}) => {
       moving();
       Alert.alert('Pemberitahuan', 'Sorry :(');
     }
-  }, [leftValue, animation, bottoomValue]);
+  }, [leftValue, animation, bottoomValue, opacity]);
 
   if (pokemon) {
     const styles = StyleSheet.create({
@@ -47,6 +54,7 @@ const PokemonAnimation = ({image, animation, pokemon = true}) => {
       },
       animation: {
         marginLeft: leftValue,
+        opacity,
       },
     });
 
