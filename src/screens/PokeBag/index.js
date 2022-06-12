@@ -57,6 +57,7 @@ const styles = StyleSheet.create({
   typeContainer: {
     borderRadius: moderateScale(5),
     margin: moderateScale(5),
+    alignSelf: 'center',
   },
   typeText: {
     fontSize: moderateScale(15),

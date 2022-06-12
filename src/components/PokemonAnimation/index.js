@@ -11,12 +11,6 @@ const PokemonAnimation = ({image, animation, pokemon = true}) => {
   useEffect(() => {
     if (animation === 'catch') {
       const moving = () => {
-        Animated.timing(leftValue, {
-          toValue: 80,
-          duration: 5000,
-          useNativeDriver: false,
-        }).start();
-
         Animated.timing(opacity, {
           toValue: 1,
           duration: 3000,
@@ -24,6 +18,7 @@ const PokemonAnimation = ({image, animation, pokemon = true}) => {
         }).start();
       };
       moving();
+
       const bag = () => {
         Animated.timing(bottoomValue, {
           toValue: 500,
@@ -46,15 +41,42 @@ const PokemonAnimation = ({image, animation, pokemon = true}) => {
     }
   }, [leftValue, animation, bottoomValue, opacity]);
 
-  if (pokemon) {
+  if (pokemon && animation === 'catch') {
     const styles = StyleSheet.create({
       image: {
         width: moderateScale(150),
         height: moderateScale(150),
       },
+      page: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+      },
       animation: {
-        marginLeft: leftValue,
         opacity,
+      },
+    });
+
+    return (
+      <View style={styles.page}>
+        <Animated.View style={styles.animation}>
+          <Image source={{uri: image}} style={styles.image} />
+        </Animated.View>
+      </View>
+    );
+  } else if (pokemon && animation === 'notCatch') {
+    const styles = StyleSheet.create({
+      image: {
+        width: moderateScale(150),
+        height: moderateScale(150),
+      },
+      page: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+      },
+      animation: {
+        marginBottom: leftValue,
       },
     });
 
