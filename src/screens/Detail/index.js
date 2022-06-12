@@ -7,11 +7,11 @@ import {
   FlatList,
   TouchableOpacity,
 } from 'react-native';
-import React, {useCallback} from 'react';
+import React, {useCallback, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {getDetailPokemon, saveCatchMons} from './redux/action';
 import {setRefreshing} from '../../store/globalAction';
-import {GentiumPlus, LoadingBar} from '../../components';
+import {GentiumPlus, LoadingBar, PokemonAnimation} from '../../components';
 import {moderateScale} from 'react-native-size-matters';
 import {COLORS} from '../../utils/colors';
 
@@ -42,6 +42,10 @@ const Detail = ({route}) => {
   } = useSelector(state => state.detail);
   const {isLoading, refreshing} = useSelector(state => state.global);
   const {_user} = useSelector(state => state.user);
+  const [animation, setAnimation] = useState('');
+  const [showAnimation, setShowAnimation] = useState(false);
+  const [showBag, setShowBag] = useState(false);
+
   const getDetail = useCallback(
     value => {
       dispatch(getDetailPokemon(value));
@@ -80,8 +84,21 @@ const Detail = ({route}) => {
   };
 
   const catchPokemon = () => {
-    dispatch(saveCatchMons(_user._id, _user.catchMons, dataDetail));
+    const hours = new Date().getHours();
+
+    if (hours > 10) {
+      dispatch(saveCatchMons(_user._id, _user.catchMons, dataDetail));
+      setAnimation('catch');
+      setShowAnimation(true);
+      setShowBag(true);
+    } else {
+      setAnimation('notCatch');
+      setShowAnimation(true);
+    }
   };
+
+  const tenary = (data, outputTrue, outputFalse) =>
+    data ? outputTrue : outputFalse;
 
   return (
     <ScrollView
@@ -96,9 +113,11 @@ const Detail = ({route}) => {
           <View style={styles.toRow}>
             <Image
               source={{
-                uri: dataDetail.sprites.front_shiny
-                  ? dataDetail.sprites.front_shiny
-                  : '',
+                uri: tenary(
+                  dataDetail.sprites.front_shiny,
+                  dataDetail.sprites.front_shiny,
+                  '',
+                ),
               }}
               style={styles.image}
             />
@@ -132,25 +151,31 @@ const Detail = ({route}) => {
               <View style={styles.statusPage}>
                 <GentiumPlus style={styles.textBab}>HP</GentiumPlus>
                 <GentiumPlus style={styles.textValueBab}>
-                  {dataDetail.stats[0].base_stat
-                    ? dataDetail.stats[0].base_stat
-                    : 0}
+                  {tenary(
+                    dataDetail.stats[0].base_stat,
+                    dataDetail.stats[0].base_stat,
+                    0,
+                  )}
                 </GentiumPlus>
               </View>
               <View style={styles.statusPage}>
                 <GentiumPlus style={styles.textBab}>Attack</GentiumPlus>
                 <GentiumPlus style={styles.textValueBab}>
-                  {dataDetail.stats[1].base_stat
-                    ? dataDetail.stats[1].base_stat
-                    : 0}
+                  {tenary(
+                    dataDetail.stats[1].base_stat,
+                    dataDetail.stats[1].base_stat,
+                    0,
+                  )}
                 </GentiumPlus>
               </View>
               <View style={styles.statusPage}>
                 <GentiumPlus style={styles.textBab}>Defense</GentiumPlus>
                 <GentiumPlus style={styles.textValueBab}>
-                  {dataDetail.stats[2].base_stat
-                    ? dataDetail.stats[2].base_stat
-                    : 0}
+                  {tenary(
+                    dataDetail.stats[2].base_stat,
+                    dataDetail.stats[2].base_stat,
+                    0,
+                  )}
                 </GentiumPlus>
               </View>
             </View>
@@ -158,9 +183,11 @@ const Detail = ({route}) => {
               <View style={styles.statusPage}>
                 <GentiumPlus style={styles.textBab}>Special Attack</GentiumPlus>
                 <GentiumPlus style={styles.textValueBab}>
-                  {dataDetail.stats[3].base_stat
-                    ? dataDetail.stats[3].base_stat
-                    : 0}
+                  {tenary(
+                    dataDetail.stats[3].base_stat,
+                    dataDetail.stats[3].base_stat,
+                    0,
+                  )}
                 </GentiumPlus>
               </View>
               <View style={styles.statusPage}>
@@ -168,17 +195,21 @@ const Detail = ({route}) => {
                   Special Defense
                 </GentiumPlus>
                 <GentiumPlus style={styles.textValueBab}>
-                  {dataDetail.stats[4].base_stat
-                    ? dataDetail.stats[4].base_stat
-                    : 0}
+                  {tenary(
+                    dataDetail.stats[4].base_stat,
+                    dataDetail.stats[4].base_stat,
+                    0,
+                  )}
                 </GentiumPlus>
               </View>
               <View style={styles.statusPage}>
                 <GentiumPlus style={styles.textBab}>Speed</GentiumPlus>
                 <GentiumPlus style={styles.textValueBab}>
-                  {dataDetail.stats[5].base_stat
-                    ? dataDetail.stats[5].base_stat
-                    : 0}
+                  {tenary(
+                    dataDetail.stats[5].base_stat,
+                    dataDetail.stats[5].base_stat,
+                    0,
+                  )}
                 </GentiumPlus>
               </View>
             </View>
@@ -195,12 +226,21 @@ const Detail = ({route}) => {
             />
           </View>
 
-          {/* {_user.catchMons} */}
           <View style={styles.buttonContainer}>
             <TouchableOpacity style={styles.button} onPress={catchPokemon}>
               <GentiumPlus style={styles.textButton}>Catch Me~!</GentiumPlus>
             </TouchableOpacity>
           </View>
+
+          {showAnimation ? (
+            <PokemonAnimation
+              image={dataDetail.sprites.front_shiny}
+              animation={animation}
+            />
+          ) : null}
+          {showBag ? (
+            <PokemonAnimation pokemon={false} animation={animation} />
+          ) : null}
         </View>
       )}
     </ScrollView>
