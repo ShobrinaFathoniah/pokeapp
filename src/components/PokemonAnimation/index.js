@@ -6,19 +6,17 @@ import {PokeBall} from '../../assets';
 const PokemonAnimation = ({image, animation, pokemon = true}) => {
   const leftValue = useState(new Animated.Value(0))[0];
   const bottoomValue = useState(new Animated.Value(0))[0];
-  const opacity = useState(new Animated.Value(0))[0];
 
   useEffect(() => {
     if (animation === 'catch') {
       const moving = () => {
-        Animated.timing(opacity, {
-          toValue: 1,
-          duration: 3000,
-          useNativeDriver: true,
+        Animated.timing(leftValue, {
+          toValue: 80,
+          duration: 5000,
+          useNativeDriver: false,
         }).start();
       };
       moving();
-
       const bag = () => {
         Animated.timing(bottoomValue, {
           toValue: 500,
@@ -39,44 +37,16 @@ const PokemonAnimation = ({image, animation, pokemon = true}) => {
       moving();
       Alert.alert('Pemberitahuan', 'Sorry :(');
     }
-  }, [leftValue, animation, bottoomValue, opacity]);
+  }, [leftValue, animation, bottoomValue]);
 
-  if (pokemon && animation === 'catch') {
+  if (pokemon) {
     const styles = StyleSheet.create({
       image: {
         width: moderateScale(150),
         height: moderateScale(150),
       },
-      page: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-      },
       animation: {
-        opacity,
-      },
-    });
-
-    return (
-      <View style={styles.page}>
-        <Animated.View style={styles.animation}>
-          <Image source={{uri: image}} style={styles.image} />
-        </Animated.View>
-      </View>
-    );
-  } else if (pokemon && animation === 'notCatch') {
-    const styles = StyleSheet.create({
-      image: {
-        width: moderateScale(150),
-        height: moderateScale(150),
-      },
-      page: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-      },
-      animation: {
-        marginBottom: leftValue,
+        marginLeft: leftValue,
       },
     });
 
